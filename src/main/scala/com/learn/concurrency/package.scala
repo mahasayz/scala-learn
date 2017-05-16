@@ -9,6 +9,7 @@ package object concurrency {
     val t = new Thread {
       override def run() = body
     }
+    t.start()
     t
   }
 

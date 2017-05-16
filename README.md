@@ -1,4 +1,14 @@
 ### Concurrency
+#### Basics
+
+When you run a main thread from within SBT,
+* SBT starts your program in a separate thread inside the SBT process
+* to ensure that SBT runs the program in a separate JVM process, we need to do the following
+    * `> set fork := true`
+    
+Starting a thread consists of 2 steps:
+* we create a `Thread` object to allocate memory for stack and thread state
+* we start computation by calling `start` method
 
 #### Atomic Execution
 
@@ -15,4 +25,12 @@ Additionally, threads do not write all updates to main memory
 * they may temporarily keep them cached in registers to optimize compile times
 
 Hence, we should not assume that writes by one thread are immediately visible to another thread. If we want that to happen, then we must enclose within a `synchronized` block.
+
+#### Guarded blocks
+
+Creating a new thread is much more expensive than creating a new lightweight object
+
+So, in live scenarios we should avoid creating new thread per request. Threads should be reused by creating a `thread-pool`.
+
+
 
