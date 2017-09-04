@@ -4,7 +4,7 @@
 * Function = Total Function (Maths)
 	* mapping of elements from Type A to Type B, such that for every element in A has exactly one mapping in set B
 
-```java
+```scala
 @ case class Coordinate(lng: Double, lat: Double)
 
 @ def readCoordinate(): Coordinate = {
