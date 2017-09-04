@@ -40,3 +40,34 @@ trait Functor[F[_]] {
 ```
 > For `F` to be a functor, needs to implement `map` operation
 
+* Also needs to satisfy certain laws:
+	* IDENTITY `map(fa)(identity) = fa`
+
+		```scala
+		@ List(1,2).map(identity)
+		res14: List[Int] = List(1,2)
+		```
+
+	* COMPOSITION `fa.map(ab).map(bc) = fa.map(ab.andThen(bc))`
+
+```scala
+sealed trait Tree[A]
+case class Leaf[A](a: A) extends Tree[A]
+case class Node[A](left: Tree[A], right: Tree[A]) extends Tree[A]
+```
+
+```scala
+implicit val treeFunctor = new Functor[Tree] {
+	def map[A, B](fa: Tree[A])(f: (A) => B): Tree[B] =
+		fa match {
+			case Leaf(a: A) => Leaf(f(a))
+			case Node(left, right) => Node(map(left)(f), map(right)(f))
+		}
+}
+```
+
+```scala
+@ val tree = Node(Leaf("ma;am"), Leaf("ßß"))
+@ val transformedTree: Tree[String] = Functor[Tree].map(tree)(f)
+@ transformedTree shouldEqual Node(Leaf("ma-am"), Leaf("ssss"))
+```
