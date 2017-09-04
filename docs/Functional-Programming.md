@@ -71,3 +71,23 @@ implicit val treeFunctor = new Functor[Tree] {
 @ val transformedTree: Tree[String] = Functor[Tree].map(tree)(f)
 @ transformedTree shouldEqual Node(Leaf("ma-am"), Leaf("ssss"))
 ```
+
+* `Functor` only allows one argument to be mapped
+* If we want multiple arguments, then we use `Applicative`
+
+### Applicative
+
+* Allows a function with multiple arguments to be mapped
+
+> `F[A] => F[A => B] => F[B]`
+
+* In order to be __applicative__, functor must satisfy the following:
+
+```scala
+trait Applicative[F[_]] extends Functor[F] {
+	def apply[A, B](f: F[A => B]): F[A] => F[B]
+	def pure[A](a: => A): F[A]
+}
+```
+
+* `pure` converts type `A` to a __functor__ (Also, called __lifting__)
