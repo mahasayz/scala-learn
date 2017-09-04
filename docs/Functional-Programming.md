@@ -4,7 +4,7 @@
 * Function = Total Function (Maths)
 	* mapping of elements from Type A to Type B, such that for every element in A has exactly one mapping in set B
 
-```scala
+```java
 @ case class Coordinate(lng: Double, lat: Double)
 
 @ def readCoordinate(): Coordinate = {
@@ -29,9 +29,9 @@
 
 * Suppose you have have value of type `A` within a container and you would like to apply function `f: A => B` on the value
 	* You would have to do the following in-order to do so
-	* `F[A] --unwrap--> A -- f: A => B --> B --wrap--> F[B]`
-		* `F[A]` could be anything like List[A], Option[A], Future[A], Task[A], Try[A], etc.
 
+![Primary-Backend](images/functor.png)
+		
 > Functor: Algebrai type that applies a function to every element of a structure
 ```scala
 trait Functor[F[_]] {
